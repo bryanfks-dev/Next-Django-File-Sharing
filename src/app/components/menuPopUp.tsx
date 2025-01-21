@@ -1,3 +1,6 @@
+import Link from "next/link";
+import React from "react";
+
 /**
  * MenuPopUp is a component that will be used to display a pop-up menu when
  * the user clicks on the menu icon.
@@ -5,6 +8,44 @@
  * @returns {JSX.Element} The MenuPopUp component.
  */
 export default function MenuPopUp(props: MenuPopUpProps): JSX.Element {
+  /**
+   * menuPropss is an array of menu properties that will be used to render the
+   * menu list view.
+   *
+   * @type {MenuProps[]}
+   *
+   * @see {@link MenuProps} for more information
+   */
+  const menuPropss: MenuProps[] = [
+    {
+      label: "Home",
+      href: "/",
+    },
+    {
+      label: "My Group",
+      href: "/my/groups",
+    },
+    {
+      label: "My Files",
+      href: "/my/files",
+    },
+  ];
+
+  /**
+   * menuListView is a function that will be used to render the menu list view.
+   *
+   * @param {MenuProps} menuProps - the menu properties
+   *
+   * @returns {JSX.Element} The menu list view.
+   */
+  const menuListView = (menuProps: MenuProps): JSX.Element => (
+    <li>
+      <Link href={menuProps.href}>
+        <div className="px-5 py-4 hover:bg-gray-100">{menuProps.label}</div>
+      </Link>
+    </li>
+  );
+
   return (
     <div className="fixed left-0 right-0 top-0 z-50 flex h-screen w-full items-center justify-center overflow-y-auto overflow-x-hidden bg-gray-600 bg-opacity-50 md:inset-0">
       <div className="relative max-h-full w-full max-w-2xl p-4">
@@ -35,19 +76,18 @@ export default function MenuPopUp(props: MenuPopUpProps): JSX.Element {
               <span className="sr-only">Close pop up</span>
             </button>
           </div>
-          <div className="space-y-4 p-4 md:p-5">
-            <p className="text-base leading-relaxed text-black">
-              With less than a month to go before the European Union enacts new
-              consumer privacy laws for its citizens, companies around the world
-              are updating their terms of service agreements to comply.
-            </p>
-            <p className="text-base leading-relaxed text-black">
-              The European Union’s General Data Protection Regulation (G.D.P.R.)
-              goes into effect on May 25 and is meant to ensure a common set of
-              data rights in the European Union. It requires organizations to
-              notify users as soon as possible of high-risk data breaches that
-              could personally affect them.
-            </p>
+          <div className="pb-1">
+            <ul className="divide-y">
+              {/* Menu list views */}
+
+              {menuPropss.map((menuProps: MenuProps, index: number) => (
+                <React.Fragment key={index}>
+                  {menuListView(menuProps)}
+                </React.Fragment>
+              ))}
+
+              {/* Optionally add a menu for managing new account */}
+            </ul>
           </div>
         </div>
       </div>

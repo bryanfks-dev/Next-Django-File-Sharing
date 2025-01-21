@@ -1,5 +1,90 @@
-export default function Home() {
+"use client";
+
+import { useState } from "react";
+import TextField from "./components/textField";
+import FileCard from "./components/fileCard";
+
+/**
+ * Page is the main page of the application.
+ * It is the first page that users see when they visit the application (if logged in).
+ *
+ * @returns {JSX.Element} Page component
+ */
+export default function Page(): JSX.Element {
+  /**
+   * searchQuery is the search query that users enter in the search bar.
+   *
+   * @type {string}
+   */
+  const [searchQuery, setSearchQuery] = useState<string>("");
+
+  /**
+   * updateSearchQuery updates the search query with the new query.
+   *
+   * @param {string} query - the new search query
+   *
+   * @returns {void}
+   */
+  const updateSearchQuery = (query: string): void => {
+    setSearchQuery(query);
+  };
+
   return (
-    <></>
+    <div className="mt-20 h-screen place-content-center">
+      <div className="w-full px-4 py-16 sm:px-6 lg:px-16">
+        <div className="mx-auto text-center">
+          <h1 className="text-5xl font-bold md:text-8xl md:font-semibold">
+            ./Next Sharing.
+          </h1>
+          <p className="mt-6 text-lg font-light md:text-2xl">
+            Explore and share files with friends, groups, and areas!
+          </p>
+        </div>
+
+        <div className="sticky left-0 top-0 mt-6 bg-white py-5 md:mt-8">
+          <div>
+            <label htmlFor="search" className="sr-only">
+              Search
+            </label>
+
+            <div className="relative">
+              <input
+                type="search"
+                className="w-full rounded-lg border border-gray-200 p-4 pe-12 text-lg shadow-sm outline-emerald-500 focus:border-emerald-500 lg:focus:outline-none"
+                placeholder="Search for files..."
+                onChange={(event: React.ChangeEvent<HTMLInputElement>): void =>
+                  updateSearchQuery(event.target.value)
+                }
+              />
+              <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  className="size-6 text-gray-400"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                    strokeWidth="2"
+                  />
+                </svg>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
+          <FileCard />
+          <FileCard />
+          <FileCard />
+          <FileCard />
+          <FileCard />
+          <FileCard />
+        </div>
+      </div>
+    </div>
   );
 }

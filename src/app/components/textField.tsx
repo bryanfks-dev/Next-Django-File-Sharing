@@ -1,3 +1,5 @@
+import clsx from "clsx";
+
 /**
  * TextField is a component that allows users to input text.
  *
@@ -16,7 +18,12 @@ export default function TextField(props: TextFieldProps): JSX.Element {
       <div className="relative">
         <input
           type={props.inputType}
-          className="w-full rounded-lg border border-gray-200 p-4 pe-12 text-sm shadow-sm outline-emerald-500 focus:border-emerald-500 lg:focus:outline-none"
+          className={clsx(
+            "w-full rounded-lg border p-4 pe-12 text-sm shadow-sm lg:focus:outline-none",
+            props.errorText != null
+              ? "border-red-500 outline-red-500 focus:border-red-500"
+              : "border-gray-200 outline-emerald-500 focus:border-emerald-500",
+          )}
           placeholder={props.inputPlaceholder}
           onChange={(event: React.ChangeEvent<HTMLInputElement>): void => {
             if (props.onChange == null) {
@@ -36,6 +43,10 @@ export default function TextField(props: TextFieldProps): JSX.Element {
           )
         }
       </div>
+
+      {props.errorText && (
+        <p className="mt-1 text-sm text-red-500">{props.errorText}</p>
+      )}
     </div>
   );
 }

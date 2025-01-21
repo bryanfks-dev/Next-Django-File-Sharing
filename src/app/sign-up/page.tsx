@@ -5,6 +5,7 @@ import TextField from "../components/textField";
 import Link from "next/link";
 import SignUpDataValidator from "../validators/signUpDataValidator";
 import ValidationError from "../errors/validationError";
+import PrimaryButton from "../components/primaryButton";
 
 /**
  * Page is the sign-up page component.
@@ -290,12 +291,7 @@ export default function Page(): JSX.Element {
               </Link>
             </p>
 
-            <button
-              type="submit"
-              className="inline-block rounded-lg bg-emerald-500 px-5 py-3 text-sm font-medium text-white"
-            >
-              Sign up
-            </button>
+            <PrimaryButton buttonType="submit" text="Sign up" />
           </div>
         </form>
       </div>

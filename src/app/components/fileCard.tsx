@@ -36,10 +36,7 @@ export default function FileCard(): JSX.Element {
 
       <div className="mt-6 flex items-center justify-between">
         <p className="text-sm text-gray-500">
-          by{" "}
-          <Link className="cursor-pointer underline" href="/">
-            Bryan
-          </Link>
+          by Bryan
         </p>
 
         <div className="space-x-2">

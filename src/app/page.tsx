@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import TextField from "./components/textField";
 import FileCard from "./components/fileCard";
 import ScrollUpButton from "./components/scrollUpButton";
 import MenuButton from "./components/menuButton";
+import MenuPopUp from "./components/menuPopUp";
 
 /**
  * Page is the main page of the application.
@@ -69,6 +69,57 @@ export default function Page(): JSX.Element {
     };
   }, [showScrollUpButton]);
 
+  /**
+   * showMenuPopUp is a boolean that determines whether the menu pop-up is shown.
+   *
+   * @type {boolean}
+   */
+  const [showMenuPopUp, setShowMenuPopUp] = useState<boolean>(false);
+
+  /**
+   * openMenuPopUp is a function that opens the menu pop-up.
+   *
+   * @returns {void}
+   */
+  const openMenuPopUp = (): void => {
+    setShowMenuPopUp(true);
+  };
+
+  /**
+   * closeMenuPopUp is a function that closes the menu pop-up.
+   *
+   * @returns {void}
+   */
+  const closeMenuPopUp = (): void => {
+    setShowMenuPopUp(false);
+  };
+
+  /**
+   * handleShowMenuPopUpOnClick is a function that handles showing the menu
+   * pop-up when the user clicks on the menu button.
+   *
+   * @returns {void}
+   */
+  const handleShowMenuPopUpOnClick = (): void => {
+    openMenuPopUp();
+
+    // Disable scrolling when the menu pop-up is shown
+    document.body.style.overflow = "hidden";
+  };
+
+  /**
+   * handleMenuPopUpOnClose is a function that handles closing the menu pop-up
+   * when the user clicks on the close button.
+   *
+   * @returns {void}
+   */
+  const handleMenuPopUpOnClose = (): void => {
+    closeMenuPopUp();
+
+    // Enable scrolling when the menu pop-up is closed
+    document.body.style.overflow = "auto";
+  };
+
   return (
     <div className="relative h-screen place-content-center">
       <div className="mt-20 w-full px-4 py-16 sm:px-6 lg:px-16">
@@ -83,7 +134,7 @@ export default function Page(): JSX.Element {
 
         <div className="sticky left-0 top-0 mt-6 bg-white py-5 md:mt-8">
           <div className="flex gap-2">
-            <MenuButton />
+            <MenuButton onClick={() => handleShowMenuPopUpOnClick()} />
 
             <div className="flex-1">
               <label htmlFor="search" className="sr-only">
@@ -148,6 +199,9 @@ export default function Page(): JSX.Element {
           <FileCard />
         </div>
       </div>
+
+      {/* Menu pop-up */}
+      {showMenuPopUp && <MenuPopUp onClose={() => handleMenuPopUpOnClose()} />}
 
       {/* Scroll up button */}
       {showScrollUpButton && (

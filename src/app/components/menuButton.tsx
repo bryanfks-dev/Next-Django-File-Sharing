@@ -9,7 +9,7 @@ export default function MenuButton(props: MenuButtonProps): JSX.Element {
   return (
     <button
       type="button"
-      className="rounded-lg border px-4 hover:bg-gray-100 focus:ring focus:ring-emerald-500 focus:ring-opacity-50 md:px-6"
+      className="rounded-lg border px-4 py-2 hover:bg-gray-100 focus:ring focus:ring-emerald-500 focus:ring-opacity-50 md:px-6"
       onClick={() => props.onClick()}
     >
       <svg

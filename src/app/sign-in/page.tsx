@@ -240,7 +240,7 @@ export default function Page(): JSX.Element {
   };
 
   return (
-    <div className="flex h-screen items-center">
+    <div className="grid h-screen place-content-center">
       <div className="mx-auto -mt-20 max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-lg text-center">
           <h1 className="text-2xl font-bold sm:text-3xl">

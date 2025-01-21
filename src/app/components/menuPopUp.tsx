@@ -40,7 +40,7 @@ export default function MenuPopUp(props: MenuPopUpProps): JSX.Element {
    */
   const menuListView = (menuProps: MenuProps): JSX.Element => (
     <li>
-      <Link href={menuProps.href}>
+      <Link href={menuProps.href} onClick={() => props.onClose()}>
         <div className="px-5 py-4 hover:bg-gray-100">{menuProps.label}</div>
       </Link>
     </li>
@@ -85,6 +85,12 @@ export default function MenuPopUp(props: MenuPopUpProps): JSX.Element {
                   {menuListView(menuProps)}
                 </React.Fragment>
               ))}
+
+              <li>
+                <div className="cursor-pointer px-5 py-4 text-emerald-500 hover:bg-gray-100">
+                  Upload New File
+                </div>
+              </li>
 
               {/* Optionally add a menu for managing new account */}
             </ul>

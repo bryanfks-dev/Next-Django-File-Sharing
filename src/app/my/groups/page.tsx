@@ -118,7 +118,7 @@ export default function Page(): JSX.Element {
           />
         </div>
 
-        <div className="sticky left-0 top-0 mt-4 flex items-center gap-6 bg-white py-5">
+        <div className="sticky left-0 top-0 mt-4 flex items-center gap-2 bg-white py-5">
           <MenuButton onClick={() => handleShowMenuPopUpOnClick()} />
 
           <GroupTabs />

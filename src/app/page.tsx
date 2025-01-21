@@ -132,41 +132,39 @@ export default function Page(): JSX.Element {
           </p>
         </div>
 
-        <div className="sticky left-0 top-0 mt-6 bg-white py-5 md:mt-8">
-          <div className="flex gap-2">
-            <MenuButton onClick={() => handleShowMenuPopUpOnClick()} />
+        <div className="sticky left-0 top-0 mt-6 flex gap-2 bg-white py-5 md:mt-8">
+          <MenuButton onClick={() => handleShowMenuPopUpOnClick()} />
 
-            <div className="flex-1">
-              <label htmlFor="search" className="sr-only">
-                Search
-              </label>
+          <div className="flex-1">
+            <label htmlFor="search" className="sr-only">
+              Search
+            </label>
 
-              <div className="relative">
-                <input
-                  type="search"
-                  className="w-full rounded-lg border border-gray-200 p-4 pe-12 text-lg shadow-sm outline-emerald-500 focus:border-emerald-500 lg:focus:outline-none"
-                  placeholder="Search for files..."
-                  onChange={(
-                    event: React.ChangeEvent<HTMLInputElement>,
-                  ): void => updateSearchQuery(event.target.value)}
-                />
-                <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    className="size-6 text-gray-400"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-                      strokeWidth="2"
-                    />
-                  </svg>
-                </span>
-              </div>
+            <div className="relative">
+              <input
+                type="search"
+                className="w-full rounded-lg border border-gray-200 p-4 pe-12 text-lg shadow-sm outline-emerald-500 focus:border-emerald-500 lg:focus:outline-none"
+                placeholder="Search for files..."
+                onChange={(event: React.ChangeEvent<HTMLInputElement>): void =>
+                  updateSearchQuery(event.target.value)
+                }
+              />
+              <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  className="size-6 text-gray-400"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                    strokeWidth="2"
+                  />
+                </svg>
+              </span>
             </div>
           </div>
         </div>

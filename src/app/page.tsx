@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TextField from "./components/textField";
 import FileCard from "./components/fileCard";
+import ScrollUpButton from "./components/scrollUpButton";
 
 /**
  * Page is the main page of the application.
@@ -29,9 +30,49 @@ export default function Page(): JSX.Element {
     setSearchQuery(query);
   };
 
+  /**
+   * showScrollUpButton is a boolean that determines whether the scroll up
+   * button is shown.
+   *
+   * @type {boolean}
+   */
+  const [showScrollUpButton, setShowScrollUpButton] = useState<boolean>(false);
+
+  /**
+   * handleShowScrollUpButtonOnScroll is a function that handles showing the
+   * scroll up button when the user scrolls down.
+   *
+   * @returns {void}
+   */
+  const handleShowScrollUpButtonOnScroll = (): void => {
+    console.log("scrolling");
+
+    // If the user has scrolled down more than the window height, show the
+    // scroll up button
+    if (scrollY > innerHeight - 80) {
+      setShowScrollUpButton(true);
+
+      return;
+    }
+
+    setShowScrollUpButton(false);
+  };
+
+  /**
+   * useEffect that adds an event listener to the window to show the scroll up
+   * button when the user scrolls down.
+   */
+  useEffect(() => {
+    window.addEventListener("scroll", handleShowScrollUpButtonOnScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleShowScrollUpButtonOnScroll);
+    };
+  }, [showScrollUpButton]);
+
   return (
-    <div className="mt-20 h-screen place-content-center">
-      <div className="w-full px-4 py-16 sm:px-6 lg:px-16">
+    <div className="relative h-screen place-content-center">
+      <div className="mt-20 w-full px-4 py-16 sm:px-6 lg:px-16">
         <div className="mx-auto text-center">
           <h1 className="text-5xl font-bold md:text-8xl md:font-semibold">
             ./Next Sharing.
@@ -83,8 +124,34 @@ export default function Page(): JSX.Element {
           <FileCard />
           <FileCard />
           <FileCard />
+          <FileCard />
+          <FileCard />
+          <FileCard />
+          <FileCard />
+          <FileCard />
+          <FileCard />
+          <FileCard />
+          <FileCard />
+          <FileCard />
+          <FileCard />
+          <FileCard />
+          <FileCard />
+          <FileCard />
+          <FileCard />
+          <FileCard />
+          <FileCard />
+          <FileCard />
+          <FileCard />
+          <FileCard />
         </div>
       </div>
+
+      {/* Scroll up button */}
+      {showScrollUpButton && (
+        <div className="fixed bottom-3 right-5 md:bottom-8 md:right-10">
+          <ScrollUpButton />
+        </div>
+      )}
     </div>
   );
 }

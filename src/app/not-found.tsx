@@ -1,5 +1,10 @@
 import Link from "next/link";
 
+/**
+ * Page is the 404 page component.
+ * 
+ * @returns {JSX.Element} The 404 page component.
+ */
 export default function Page(): JSX.Element {
   return (
     <div className="grid h-screen place-content-center bg-white px-4">

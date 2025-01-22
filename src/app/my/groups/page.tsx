@@ -9,7 +9,7 @@ import GroupCard from "./components/groupCard";
 import GroupTabs from "./components/groupTabs";
 
 /**
- * Page component for the MyGroup page.
+ * Page is a component for the MyGroup page.
  *
  * @returns {JSX.Element} The MyFiles page component.
  */

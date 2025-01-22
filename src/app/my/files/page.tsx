@@ -178,7 +178,7 @@ export default function Page(): JSX.Element {
     <div className="relative h-screen">
       <div className="w-full px-4 py-16 sm:px-6 lg:px-16">
         <div className="flex items-center justify-between">
-          <h5 className="text-3xl font-bold md:text-5xl md:font-semibold">
+          <h5 className="text-4xl font-bold md:text-5xl md:font-semibold">
             My Files
           </h5>
 
@@ -190,7 +190,7 @@ export default function Page(): JSX.Element {
           />
         </div>
 
-        <div className="sticky left-0 top-0 mt-6 flex gap-2 bg-white py-5 md:mt-8">
+        <div className="sticky left-0 top-0 mt-3 flex gap-2 bg-white py-5 md:mt-8">
           <MenuButton onClick={() => handleShowMenuPopUpOnClick()} />
 
           <div className="flex-1">

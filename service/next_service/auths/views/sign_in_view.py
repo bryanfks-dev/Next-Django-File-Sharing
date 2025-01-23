@@ -4,7 +4,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework import status
 
-from auths.usecases.sign_in_usecase import SignInUsecase
+from auths.use_cases.sign_in_usecase import SignInUsecase
 from auths.serializers.post_sign_in_request_serializer import (
     PostSignInRequestSerializer,
 )

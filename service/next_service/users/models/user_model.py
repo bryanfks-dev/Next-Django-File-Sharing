@@ -1,7 +1,8 @@
 import uuid
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 from django.db import models
+from django.utils import timezone
 from django.contrib.auth.hashers import check_password
 
 
@@ -23,7 +24,7 @@ class User(models.Model):
     username = models.CharField(max_length=100, unique=True, blank=False)
     password = models.CharField(max_length=255, blank=False)
     token = models.UUIDField(editable=False, unique=True, null=True)
-    token_expires_time = models.DateTimeField(null=True)
+    token_expires_time = models.DateTimeField(null=True, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -40,7 +41,7 @@ class User(models.Model):
         Returns:
         - bool: True if the password is correct, False otherwise.
         """
-        return check_password(self.password, comparator_password)
+        return check_password(comparator_password, self.password)
 
     def generate_token(self) -> uuid.UUID:
         """
@@ -52,7 +53,7 @@ class User(models.Model):
 
         # Generate a new token and set the expiration time
         self.token = uuid.uuid4()
-        self.token_expires_time = datetime.now() + timedelta(days=7)
+        self.token_expires_time = timezone.now() + timedelta(days=7)
 
         # Save the user object
         self.save()

@@ -1,8 +1,8 @@
 import logging
 import uuid
-from datetime import datetime, timedelta
 
 from django.db import DatabaseError, IntegrityError, transaction
+from django.utils import timezone
 
 from auths.serializers.post_sign_in_request_serializer import (
     PostSignInRequestSerializer,
@@ -54,7 +54,7 @@ class SignInUsecase:
                 raise InvalidCredentialException(detail="Invalid email or password.")
 
             # Check if the token is available and not expired
-            if user.token is not None and user.token_expires_time < datetime.now():
+            if user.token is not None and user.token_expires_time > timezone.now():
                 raise InvalidCredentialException(
                     detail="This account is used in another device, please logout from that device first."
                 )
@@ -79,12 +79,3 @@ class SignInUsecase:
             )
 
             raise e
-
-    def __token_expires_time(self) -> datetime:
-        """
-        token_expires_time is a method that returns the token expiration time.
-
-        Returns:
-        - datetime: The token expiration time.
-        """
-        return datetime.now() + timedelta(days=7)

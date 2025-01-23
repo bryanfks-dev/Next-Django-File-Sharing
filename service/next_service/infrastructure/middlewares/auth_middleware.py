@@ -1,5 +1,6 @@
 from functools import wraps
 import logging
+import uuid
 
 from django.db import DatabaseError, IntegrityError
 from rest_framework.request import Request
@@ -34,10 +35,10 @@ def auth_middleware(view_func):
         """
 
         # Get the token from the request headers
-        token = request.META.get("HTTP_X_API_TOKEN", "")
+        token: str = request.META.get("HTTP_X_API_TOKEN", "").strip()
 
         # Check if the token is empty
-        if not token.strip():
+        if not token:
             return Response(
                 data={"error": "Token is required"}, status=status.HTTP_400_BAD_REQUEST
             )

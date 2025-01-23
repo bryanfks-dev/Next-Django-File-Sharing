@@ -48,7 +48,7 @@ class SignUpUsecase:
                     detail={"username": ["Username already exists."]}
                 )
         except DatabaseError as e:
-            self.logger.error("DatabaseError: Failed to validate username:", str(e))
+            self.logger.error(f"DatabaseError: Failed to validate username:, {e}")
 
             raise ServerFailureException(
                 detail="An error occurred while validating username."
@@ -60,18 +60,18 @@ class SignUpUsecase:
 
             return user
         except IntegrityError as e:
-            self.logger.error("IntegrityError: Failed to create user:", str(e))
+            self.logger.error(f"IntegrityError: Failed to create user: {e}")
 
             raise ServerFailureException(
                 detail="An error occurred while signing user up."
             )
         except DatabaseError as e:
-            self.logger.error("DatabaseError: Failed to create user:", str(e))
+            self.logger.error(f"DatabaseError: Failed to create user: {e}")
 
             raise ServerFailureException(
                 detail="An error occurred while signing user up."
             )
         except Exception as e:
-            self.logger.error("Unexpected Exception: Failed to create user:", str(e))
+            self.logger.error(f"Unexpected Exception: Failed to create user: {e}")
 
             raise e

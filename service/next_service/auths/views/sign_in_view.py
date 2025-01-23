@@ -60,8 +60,7 @@ class SignInView(ViewSet):
             return Response(data={"error": e.detail}, status=e.status_code)
         except Exception as e:
             self.logger.error(
-                "Unexpected Exception: An unexpected error occurred while signing up:",
-                str(e),
+                f"Unexpected Exception: An unexpected error occurred while signing in user: {e}"
             )
 
             return Response(

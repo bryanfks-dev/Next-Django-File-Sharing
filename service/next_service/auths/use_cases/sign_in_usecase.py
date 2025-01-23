@@ -66,16 +66,14 @@ class SignInUsecase:
         except User.DoesNotExist:
             raise InvalidCredentialException(detail="Invalid email or password.")
         except IntegrityError as e:
-            self.logger.error("IntegrityError: Failed to signing in user:", str(e))
+            self.logger.error(f"IntegrityError: Failed to signing in user: {e}")
 
             raise ServerFailureException(detail="An error occurred while signing in.")
         except DatabaseError as e:
-            self.logger.error("DatabaseError: Failed to signing in user:", str(e))
+            self.logger.error(f"DatabaseError: Failed to signing in user: {e}")
 
             raise ServerFailureException(detail="An error occurred while signing in.")
         except Exception as e:
-            self.logger.error(
-                "Unexpected Exception: Failed to signing in user:", str(e)
-            )
+            self.logger.error(f"Unexpected Exception: Failed to signing in user: {e}")
 
             raise e

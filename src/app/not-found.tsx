@@ -1,11 +1,32 @@
-import Link from "next/link";
+"use client";
+
+import { useRouter } from "next/navigation";
+import PrimaryButton from "./components/primaryButton";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 /**
  * Page is the 404 page component.
- * 
+ *
  * @returns {JSX.Element} The 404 page component.
  */
 export default function Page(): JSX.Element {
+  /**
+   * router is the router instance.
+   *
+   * @type {AppRouterInstance}
+   */
+  const router: AppRouterInstance = useRouter();
+
+  /**
+   * redirectToHome is a function that redirects the user to
+   * the home page.
+   *
+   * @returns {void}
+   */
+  const redirectToHome = (): void => {
+    router.push("/");
+  };
+
   return (
     <div className="grid h-screen place-content-center bg-white px-4">
       <div className="text-center">
@@ -15,14 +36,14 @@ export default function Page(): JSX.Element {
           Uh-oh!
         </p>
 
-        <p className="mt-4 text-gray-500">We can't find that page.</p>
+        <p className="mt-4 text-gray-500">We can&lsquo;t find that page.</p>
 
-        <Link
-          href="/"
-          className="mt-6 inline-block rounded bg-emerald-500 px-5 py-3 text-sm font-medium text-white hover:bg-emerald-600 focus:outline-none focus:ring focus:ring-emerald-500 focus:ring-opacity-50"
-        >
-          Go Back Home
-        </Link>
+        <PrimaryButton
+          buttonType="button"
+          text="Go back home"
+          className="mt-6"
+          onClick={() => redirectToHome()}
+        />
       </div>
     </div>
   );

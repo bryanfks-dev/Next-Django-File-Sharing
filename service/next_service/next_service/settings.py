@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
 
 from decouple import config
 
@@ -21,11 +22,40 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config("SECRET_KEY")
+assert config("SECRET_KEY", cast=str).strip(), "Please set SECRET_KEY in .env file"
+
+SECRET_KEY = config("SECRET_KEY", cast=str)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
+# Logging settings
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {"level": "DEBUG", "class": "logging.StreamHandler"},
+        "file": {
+            "level": "INFO",
+            "class": "logging.FileHandler",
+            "filename": "logs/next_service.log",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": True,
+        },
+        "next_service": {
+            "handlers": ["console", "file"],
+            "lavel": "DEBUG",
+            "propagate": False,
+        },
+    },
+}
 
 ALLOWED_HOSTS = []
 
@@ -40,7 +70,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-    "auth_service",
+    "auths",
+    "users",
 ]
 
 MIDDLEWARE = [
@@ -79,8 +110,12 @@ WSGI_APPLICATION = "next_service.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": config("MYSQL_DATABASE", default="next_sharing_db", cast=str),
+        "USER": config("MYSQL_USER", default="root", cast=str),
+        "PASSWORD": config("MYSQL_PASSWORD", default="", cast=str),
+        "HOST": config("MYSQL_HOST", default="localhost", cast=str),
+        "PORT": config("MYSQL_PORT", default="3306", cast=str),
     }
 }
 

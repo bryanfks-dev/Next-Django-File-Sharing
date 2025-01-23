@@ -38,7 +38,7 @@ class PostSignUpRequestSerializer(serializers.Serializer):
         # Validate the password and confirm password
         if data["password"] != data["confirm_password"]:
             raise serializers.ValidationError(
-                {"confirm_password": "Passwords do not match"}
+                detail={"confirm_password": "Passwords do not match"}
             )
 
         return data

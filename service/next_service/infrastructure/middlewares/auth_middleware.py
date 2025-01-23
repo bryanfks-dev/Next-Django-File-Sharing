@@ -1,6 +1,5 @@
 from functools import wraps
 import logging
-import uuid
 
 from django.db import DatabaseError, IntegrityError
 from rest_framework.request import Request

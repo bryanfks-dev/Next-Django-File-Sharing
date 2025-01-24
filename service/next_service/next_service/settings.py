@@ -73,6 +73,7 @@ INSTALLED_APPS = [
     "apps.auths",
     "apps.users",
     "apps.files",
+    "apps.groups"
 ]
 
 MIDDLEWARE = [

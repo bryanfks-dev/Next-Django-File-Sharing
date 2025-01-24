@@ -1,10 +1,10 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from auths.views.sign_up_view import SignUpView
-from auths.views.sign_in_view import SignInView
-from auths.views.token_view import TokenView
-from auths.views.guest_sign_in_view import GuestSignInView
+from apps.auths.views.sign_up_view import SignUpView
+from apps.auths.views.sign_in_view import SignInView
+from apps.auths.views.token_view import TokenView
+from apps.auths.views.guest_sign_in_view import GuestSignInView
 
 # Create router object
 router = DefaultRouter(trailing_slash=False)

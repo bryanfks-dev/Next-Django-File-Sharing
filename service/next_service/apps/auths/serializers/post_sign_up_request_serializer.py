@@ -2,7 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.hashers import make_password
 
-from users.models.user_model import User
+from apps.users.models.user_model import User
 
 
 class PostSignUpRequestSerializer(serializers.Serializer):

@@ -5,18 +5,18 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework import status
 
-from auths.use_cases.sign_up_usecase import SignUpUsecase
-from auths.serializers.post_sign_up_request_serializer import (
+from apps.auths.use_cases.sign_up_usecase import SignUpUsecase
+from apps.auths.serializers.post_sign_up_request_serializer import (
     PostSignUpRequestSerializer,
 )
-from auths.serializers.post_sign_up_response_serializer import (
+from apps.auths.serializers.post_sign_up_response_serializer import (
     PostSignUpResponseSeralizer,
 )
 from core.exceptions.server_failure_exception import ServerFailureException
 from core.exceptions.invalid_field_value_exception import (
     InvalidFieldValueException,
 )
-from users.models.user_model import User
+from apps.users.models.user_model import User
 
 
 class SignUpView(ViewSet):

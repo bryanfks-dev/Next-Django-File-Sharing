@@ -5,10 +5,10 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework import status
 
-from auths.serializers.post_guest_sign_in_request_serializer import (
+from apps.auths.serializers.post_guest_sign_in_request_serializer import (
     PostGuestSignInRequestSerializer,
 )
-from auths.use_cases.guest_sign_in_usecase import GuestSignInUsecase
+from apps.auths.use_cases.guest_sign_in_usecase import GuestSignInUsecase
 from core.exceptions.invalid_field_value_exception import InvalidFieldValueException
 
 

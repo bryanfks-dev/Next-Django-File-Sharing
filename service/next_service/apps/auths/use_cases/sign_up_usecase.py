@@ -3,14 +3,14 @@ import logging
 from django.db import DatabaseError, IntegrityError
 from django.db import transaction
 
-from auths.serializers.post_sign_up_request_serializer import (
+from apps.auths.serializers.post_sign_up_request_serializer import (
     PostSignUpRequestSerializer,
 )
 from core.exceptions.invalid_field_value_exception import (
     InvalidFieldValueException,
 )
 from core.exceptions.server_failure_exception import ServerFailureException
-from users.models.user_model import User
+from apps.users.models.user_model import User
 
 
 class SignUpUsecase:

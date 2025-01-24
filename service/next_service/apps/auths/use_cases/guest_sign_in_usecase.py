@@ -1,4 +1,4 @@
-from auths.serializers.post_guest_sign_in_request_serializer import (
+from apps.auths.serializers.post_guest_sign_in_request_serializer import (
     PostGuestSignInRequestSerializer,
 )
 from core.exceptions.invalid_field_value_exception import InvalidFieldValueException

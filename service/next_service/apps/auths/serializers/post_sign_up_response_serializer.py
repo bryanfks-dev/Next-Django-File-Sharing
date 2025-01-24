@@ -1,5 +1,5 @@
-from users.models.user_model import User
-from users.serializers.user_serializer import UserSerializer
+from apps.users.models.user_model import User
+from apps.users.serializers.user_serializer import UserSerializer
 
 
 class PostSignUpResponseSeralizer:

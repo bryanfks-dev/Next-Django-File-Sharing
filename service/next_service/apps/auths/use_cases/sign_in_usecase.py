@@ -4,7 +4,7 @@ import uuid
 from django.db import DatabaseError, IntegrityError, transaction
 from django.utils import timezone
 
-from auths.serializers.post_sign_in_request_serializer import (
+from apps.auths.serializers.post_sign_in_request_serializer import (
     PostSignInRequestSerializer,
 )
 from core.exceptions.invalid_field_value_exception import (
@@ -12,7 +12,7 @@ from core.exceptions.invalid_field_value_exception import (
 )
 from core.exceptions.invalid_credential_exception import InvalidCredentialException
 from core.exceptions.server_failure_exception import ServerFailureException
-from users.models.user_model import User
+from apps.users.models.user_model import User
 
 
 class SignInUsecase:

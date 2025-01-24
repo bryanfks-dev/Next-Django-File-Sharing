@@ -1,7 +1,7 @@
 import uuid
 
-from users.serializers.user_serializer import UserSerializer
-from users.models.user_model import User
+from apps.users.serializers.user_serializer import UserSerializer
+from apps.users.models.user_model import User
 
 
 class PostSignInResponseSerializer:

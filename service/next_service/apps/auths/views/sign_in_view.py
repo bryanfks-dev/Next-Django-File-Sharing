@@ -5,11 +5,11 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework import status
 
-from auths.use_cases.sign_in_usecase import SignInUsecase
-from auths.serializers.post_sign_in_request_serializer import (
+from apps.auths.use_cases.sign_in_usecase import SignInUsecase
+from apps.auths.serializers.post_sign_in_request_serializer import (
     PostSignInRequestSerializer,
 )
-from auths.serializers.post_sign_in_response_serializer import (
+from apps.auths.serializers.post_sign_in_response_serializer import (
     PostSignInResponseSerializer,
 )
 from core.exceptions.invalid_credential_exception import InvalidCredentialException

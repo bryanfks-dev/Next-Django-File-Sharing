@@ -6,7 +6,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework import status
 
-from users.models.user_model import User
+from apps.users.models.user_model import User
 
 
 def auth_middleware(view_func):

@@ -3,9 +3,14 @@
 import { FormEvent, useState } from "react";
 import TextField from "../components/textField";
 import Link from "next/link";
-import SignUpDataValidator from "../validators/signUpDataValidator";
-import ValidationError from "../errors/validationError";
+import { SignUpDataValidator } from "../validators/signUpDataValidator";
+import { ValidationError } from "../../core/errors/validation.error";
 import PrimaryButton from "../components/primaryButton";
+import { SignUpUsecase } from "@/core/use-cases/signUp.usecase";
+import { AuthenticationRepositoryImpl } from "@/infrastructure/repositories/authentication.repository.impl";
+import { User } from "@/domain/entities/user.entity";
+import { ServerFailure } from "@/core/errors/serverFailure.error";
+import WaitForApproval from "./components/waitForApprovalPopUp";
 
 /**
  * Page is the sign-up page component.
@@ -13,6 +18,74 @@ import PrimaryButton from "../components/primaryButton";
  * @returns {JSX.Element} The sign-in page component.
  */
 export default function Page(): JSX.Element {
+  /**
+   * handleSignUp is a method that handles the sign up event.
+   *
+   * @returns {Promise<void>}
+   */
+  const handleSignUp = async (): Promise<void> => {
+    try {
+      // Call the sign up use case
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const user: User = await new SignUpUsecase(
+        new AuthenticationRepositoryImpl(),
+      ).execute(
+        signUpData.username,
+        signUpData.password,
+        signUpData.confirmPassword,
+      );
+
+      // Open the wait for approval pop up
+      openShowWaitForApprovalPopUp();
+    } catch (error: unknown) {
+      // Check if the error is a ValidationError
+      // Check if the error has a username property
+      if (
+        error instanceof ValidationError &&
+        error.hasOwnProperty("username")
+      ) {
+        setUsernameTextFieldProps((prevState) => {
+          prevState.errorText = error.message;
+
+          return { ...prevState };
+        });
+      }
+
+      // Check if the error has a password property
+      if (
+        error instanceof ValidationError &&
+        error.hasOwnProperty("password")
+      ) {
+        setPasswordTextFieldProps((prevState) => {
+          prevState.errorText = error.message;
+
+          return { ...prevState };
+        });
+      }
+
+      // Check if the error has a confirm_password property
+      if (
+        error instanceof ValidationError &&
+        error.hasOwnProperty("confirm_password")
+      ) {
+        setConfirmPasswordTextFieldProps((prevState) => {
+          prevState.errorText = error.message;
+
+          return { ...prevState };
+        });
+      }
+
+      // Check if the error is a ServerFailure
+      if (error instanceof ServerFailure) {
+        alert(error.message);
+
+        return;
+      }
+
+      alert(error);
+    }
+  };
+
   /**
    * signUpData is the state that contains the sign up data.
    * It is an object that contains the username, password, and
@@ -257,44 +330,81 @@ export default function Page(): JSX.Element {
       return;
     }
 
-    alert(signUpData);
+    // Handle the sign up
+    handleSignUp();
+  };
+
+  /**
+   * showWaitForApprovalPopUp is a state that indicates if the wait for approval
+   * pop up should be shown.
+   *
+   * @type {boolean}
+   */
+  const [showWaitForApprovalPopUp, setShowWaitForApprovalPopUp] =
+    useState<boolean>(false);
+
+  /**
+   * openShowWaitForApprovalPopUp is a method that opens the wait for approval pop up.
+   *
+   * @returns {void}
+   */
+  const openShowWaitForApprovalPopUp = (): void => {
+    setShowWaitForApprovalPopUp(true);
+  };
+
+  /**
+   * closeShowWaitForApprovalPopUp is a method that closes the wait for approval pop up.
+   *
+   * @returns {void}
+   */
+  const closeShowWaitForApprovalPopUp = (): void => {
+    setShowWaitForApprovalPopUp(false);
   };
 
   return (
-    <div className="grid h-screen place-content-center">
-      <div className="mx-auto -mt-20 max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-lg text-center">
-          <h1 className="text-2xl font-bold sm:text-3xl">Sign up an account</h1>
+    <>
+      <div className="grid h-screen place-content-center">
+        <div className="mx-auto -mt-20 max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-lg text-center">
+            <h1 className="text-2xl font-bold sm:text-3xl">
+              Sign up an account
+            </h1>
 
-          <p className="mt-4 text-gray-500">
-            Enter your details to create a new account and join us to unlock
-            seamless file sharing and storage..
-          </p>
-        </div>
-
-        <form
-          action=""
-          className="mx-auto mb-0 mt-8 max-w-md space-y-4"
-          onSubmit={(e: FormEvent<HTMLFormElement>) =>
-            handleSubmitSignUpData(e)
-          }
-        >
-          <TextField {...usernameTextFieldProps} />
-          <TextField {...passwordTextFieldProps} />
-          <TextField {...confirmPasswordTextFieldProps} />
-
-          <div className="flex items-center justify-between">
-            <p className="text-sm text-gray-500">
-              Has an account?{" "}
-              <Link className="underline" href="/sign-in">
-                Sign in
-              </Link>
+            <p className="mt-4 text-gray-500">
+              Enter your details to create a new account and join us to unlock
+              seamless file sharing and storage..
             </p>
-
-            <PrimaryButton buttonType="submit" text="Sign up" />
           </div>
-        </form>
+
+          <form
+            action=""
+            className="mx-auto mb-0 mt-8 max-w-md space-y-4"
+            onSubmit={(e: FormEvent<HTMLFormElement>) => {
+              handleSubmitSignUpData(e);
+            }}
+          >
+            <TextField {...usernameTextFieldProps} />
+            <TextField {...passwordTextFieldProps} />
+            <TextField {...confirmPasswordTextFieldProps} />
+
+            <div className="flex items-center justify-between">
+              <p className="text-sm text-gray-500">
+                Has an account?{" "}
+                <Link className="underline" href="/sign-in">
+                  Sign in
+                </Link>
+              </p>
+
+              <PrimaryButton buttonType="submit" text="Sign up" />
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+
+      {/* Wait for approval pop-up */}
+      {showWaitForApprovalPopUp && (
+        <WaitForApproval onClose={closeShowWaitForApprovalPopUp} />
+      )}
+    </>
   );
 }

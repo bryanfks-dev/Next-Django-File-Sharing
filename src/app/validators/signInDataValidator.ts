@@ -1,4 +1,4 @@
-import ValidationError from "../errors/validationError";
+import { ValidationError } from "../../core/errors/validation.error";
 
 /**
  * SignInDataValidator is a class that validates the data that is entered by
@@ -8,7 +8,7 @@ import ValidationError from "../errors/validationError";
  * @method validateUsername - validates the username that is entered by the user.
  * @method validatePassword - validates the password that is entered by the user.
  */
-export default class SignInDataValidator {
+export class SignInDataValidator {
   /**
    * validateUsrname is a static method that validates the username that is
    * entered by the user when signing in.

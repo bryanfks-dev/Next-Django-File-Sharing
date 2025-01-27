@@ -1,6 +1,6 @@
 "use client";
 
-import { UploadChannel } from "@/core/enums/uploadChannel";
+import { UploadChannel } from "@/infrastructure/enums/uploadChannel";
 import { useState } from "react";
 import PrimaryButton from "./primaryButton";
 import clsx from "clsx";

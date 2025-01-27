@@ -2,8 +2,8 @@
 
 import { FormEvent, useState } from "react";
 import Link from "next/link";
-import SignInDataValidator from "@/app/validators/signInDataValidator";
-import ValidationError from "@/app/errors/validationError";
+import { SignInDataValidator } from "@/app/validators/signInDataValidator";
+import { ValidationError } from "@/core/errors/validation.error";
 import TextField from "@/app/components/textField";
 import PrimaryButton from "@/app/components/primaryButton";
 

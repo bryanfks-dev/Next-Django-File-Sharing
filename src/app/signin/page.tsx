@@ -3,8 +3,8 @@
 import { FormEvent, useState } from "react";
 import TextField from "../components/textField";
 import Link from "next/link";
-import SignInDataValidator from "../validators/signInDataValidator";
-import ValidationError from "../errors/validationError";
+import { SignInDataValidator } from "../validators/signInDataValidator";
+import { ValidationError } from "../../core/errors/validation.error";
 import PrimaryButton from "../components/primaryButton";
 
 /**

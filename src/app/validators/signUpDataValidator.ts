@@ -1,4 +1,4 @@
-import ValidationError from "../errors/validationError";
+import { ValidationError } from "../../core/errors/validation.error";
 
 /**
  * SignUpDataValidator is a class that contains static methods that are used to
@@ -9,7 +9,7 @@ import ValidationError from "../errors/validationError";
  * @method validatePassword - validates the password that is entered by the user.
  * @method validateConfirmPassword - validates the confirm password that is entered by the user.
  */
-export default class SignUpDataValidator {
+export class SignUpDataValidator {
   /**
    * validateUsername is a static method that validates the username that is
    * entered by the user when signing up.

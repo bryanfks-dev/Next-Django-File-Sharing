@@ -9,7 +9,7 @@ import PrimaryButton from "../components/primaryButton";
 import { SignUpUsecase } from "@/core/use-cases/signUp.usecase";
 import { AuthenticationRepositoryImpl } from "@/infrastructure/repositories/authentication.repository.impl";
 import { User } from "@/domain/entities/user.entity";
-import { ServerFailure } from "@/core/errors/serverFailure.error";
+import { ServerFailureError } from "@/core/errors/serverFailure.error";
 import WaitForApproval from "./components/waitForApprovalPopUp";
 
 /**
@@ -37,46 +37,41 @@ export default function Page(): JSX.Element {
 
       // Open the wait for approval pop up
       openShowWaitForApprovalPopUp();
-    } catch (error: unknown) {
+    } catch (error) {
       // Check if the error is a ValidationError
-      // Check if the error has a username property
-      if (
-        error instanceof ValidationError &&
-        error.hasOwnProperty("username")
-      ) {
-        setUsernameTextFieldProps((prevState) => {
-          prevState.errorText = error.message;
+      if (error instanceof ValidationError) {
+        // Check if the error has a username property
+        if (error.errorMessages.hasOwnProperty("username")) {
+          setUsernameTextFieldProps((prevState) => {
+            prevState.errorText = error.errorMessages["username"]![0];
 
-          return { ...prevState };
-        });
-      }
+            return { ...prevState };
+          });
+        }
 
-      // Check if the error has a password property
-      if (
-        error instanceof ValidationError &&
-        error.hasOwnProperty("password")
-      ) {
-        setPasswordTextFieldProps((prevState) => {
-          prevState.errorText = error.message;
+        // Check if the error has a password property
+        if (error.errorMessages.hasOwnProperty("password")) {
+          setPasswordTextFieldProps((prevState) => {
+            prevState.errorText = error.errorMessages["password"]![0];
 
-          return { ...prevState };
-        });
-      }
+            return { ...prevState };
+          });
+        }
 
-      // Check if the error has a confirm_password property
-      if (
-        error instanceof ValidationError &&
-        error.hasOwnProperty("confirm_password")
-      ) {
-        setConfirmPasswordTextFieldProps((prevState) => {
-          prevState.errorText = error.message;
+        // Check if the error has a confirm_password property
+        if (error.errorMessages.hasOwnProperty("confirm_password")) {
+          setConfirmPasswordTextFieldProps((prevState) => {
+            prevState.errorText = error.errorMessages["confirm_password"]![0];
 
-          return { ...prevState };
-        });
+            return { ...prevState };
+          });
+        }
+
+        return;
       }
 
       // Check if the error is a ServerFailure
-      if (error instanceof ServerFailure) {
+      if (error instanceof ServerFailureError) {
         alert(error.message);
 
         return;
@@ -256,7 +251,7 @@ export default function Page(): JSX.Element {
     try {
       // Validate the username
       SignUpDataValidator.validateUsername(signUpData.username);
-    } catch (error: unknown) {
+    } catch (error) {
       // Check if the error is not a ValidationError
       if (!(error instanceof ValidationError)) {
         throw error;
@@ -274,7 +269,7 @@ export default function Page(): JSX.Element {
     try {
       // Validate the password
       SignUpDataValidator.validatePassword(signUpData.password);
-    } catch (error: unknown) {
+    } catch (error) {
       // Check if the error is not a ValidationError
       if (!(error instanceof ValidationError)) {
         throw error;
@@ -295,7 +290,7 @@ export default function Page(): JSX.Element {
         signUpData.password,
         signUpData.confirmPassword,
       );
-    } catch (error: unknown) {
+    } catch (error) {
       // Check if the error is not a ValidationError
       if (!(error instanceof ValidationError)) {
         throw error;

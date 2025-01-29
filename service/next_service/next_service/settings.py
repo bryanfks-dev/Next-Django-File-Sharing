@@ -73,10 +73,12 @@ INSTALLED_APPS = [
     "apps.auths",
     "apps.users",
     "apps.files",
-    "apps.groups"
+    "apps.groups",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -85,6 +87,21 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+CORS_ALLOW_ALL_ORIGINS = False
+
+CORS_ALLOWED_ORIGINS = ["http://localhost:3000"]
+
+CORS_ALLOW_HEADERS = [
+    "authorization",
+    "content-type",
+    "x-requested-with",
+    "access-control-allow-origin",
+    "x-api-token",
+    "accept",
+]
+
+CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = "next_service.urls"
 

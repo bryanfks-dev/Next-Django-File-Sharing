@@ -1,8 +1,8 @@
 /**
  * ErrorDto is a data transfer object that represents an error.
- * 
- * @param {string} error The error message.
+ *
+ * @param {string | Record<string, string[]>} error The error message.
  */
 export interface ErrorDto {
-  error: string
+  error: string | Record<string, string[]>;
 }

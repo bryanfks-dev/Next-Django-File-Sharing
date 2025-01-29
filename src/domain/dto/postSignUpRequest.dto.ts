@@ -3,10 +3,10 @@
  *
  * @property {string} username - The username of the user
  * @property {string} password - The password of the user
- * @property {string} confirmPassword - The confirmation password of the user
+ * @property {string} confirm_password - The confirmation password of the user
  */
 export interface PostSignUpRequestDto {
   username: string;
   password: string;
-  confirmPassword: string;
+  confirm_password: string;
 }

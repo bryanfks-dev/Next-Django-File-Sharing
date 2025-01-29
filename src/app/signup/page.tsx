@@ -10,7 +10,7 @@ import { SignUpUsecase } from "@/core/use-cases/signUp.usecase";
 import { AuthenticationRepositoryImpl } from "@/infrastructure/repositories/authentication.repository.impl";
 import { User } from "@/domain/entities/user.entity";
 import { ServerFailureError } from "@/core/errors/serverFailure.error";
-import WaitForApproval from "./components/waitForApprovalPopUp";
+import WaitForApprovalPopUp from "./components/waitForApprovalPopUp";
 
 /**
  * Page is the sign-up page component.
@@ -398,7 +398,7 @@ export default function Page(): JSX.Element {
 
       {/* Wait for approval pop-up */}
       {showWaitForApprovalPopUp && (
-        <WaitForApproval onClose={closeShowWaitForApprovalPopUp} />
+        <WaitForApprovalPopUp onClose={closeShowWaitForApprovalPopUp} />
       )}
     </>
   );

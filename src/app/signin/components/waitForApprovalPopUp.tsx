@@ -18,7 +18,7 @@ export default function WaitForApprovalPopUp(props: PopUpProps): JSX.Element {
       <div className="relative max-h-full w-full max-w-2xl p-4">
         <div className="relative rounded-lg bg-white shadow">
           <div className="flex items-center justify-between rounded-t border-b p-4 md:p-5">
-            <h3 className="text-xl font-semibold text-black">Wait for it!</h3>
+            <h3 className="text-xl font-semibold text-black">Hold uppp!</h3>
             <button
               type="button"
               className="ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-black"

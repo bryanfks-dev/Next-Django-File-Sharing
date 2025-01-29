@@ -6,6 +6,7 @@ import Link from "next/link";
 import { SignInDataValidator } from "../validators/signInDataValidator";
 import { ValidationError } from "../../core/errors/validation.error";
 import PrimaryButton from "../components/primaryButton";
+import WaitForApprovalPopUp from "./components/waitForApprovalPopUp";
 
 /**
  * Page is the sign-in page component.
@@ -177,7 +178,7 @@ export default function Page(): JSX.Element {
      *
      * @type {boolean}
      */
-    let isValidFlag = true;
+    let isValidFlag: boolean = true;
 
     try {
       // Validate the username data
@@ -239,42 +240,76 @@ export default function Page(): JSX.Element {
     alert(signInData);
   };
 
+  /**
+   * showWaitForApprovalPopUp is a state that indicates if the wait for approval
+   * pop up should be shown.
+   *
+   * @type {boolean}
+   */
+  const [showWaitForApprovalPopUp, setShowWaitForApprovalPopUp] =
+    useState<boolean>(false);
+
+  /**
+   * openShowWaitForApprovalPopUp is a method that opens the wait for approval pop up.
+   *
+   * @returns {void}
+   */
+  const openShowWaitForApprovalPopUp = (): void => {
+    setShowWaitForApprovalPopUp(true);
+  };
+
+  /**
+   * closeShowWaitForApprovalPopUp is a method that closes the wait for approval pop up.
+   *
+   * @returns {void}
+   */
+  const closeShowWaitForApprovalPopUp = (): void => {
+    setShowWaitForApprovalPopUp(false);
+  };
+
   return (
-    <div className="grid h-screen place-content-center">
-      <div className="mx-auto -mt-20 max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-lg text-center">
-          <h1 className="text-2xl font-bold sm:text-3xl">
-            Sign in into your account
-          </h1>
+    <>
+      <div className="grid h-screen place-content-center">
+        <div className="mx-auto -mt-20 max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-lg text-center">
+            <h1 className="text-2xl font-bold sm:text-3xl">
+              Sign in into your account
+            </h1>
 
-          <p className="mt-4 text-gray-500">
-            Securely access your account, explore and start sharing files
-            effortlessly in seconds.
-          </p>
-        </div>
-
-        <form
-          action=""
-          className="mx-auto mb-0 mt-8 max-w-md space-y-4"
-          onSubmit={(e: FormEvent<HTMLFormElement>) =>
-            handleSubmitSignInData(e)
-          }
-        >
-          <TextField {...usernameTextFieldProps} />
-          <TextField {...passwordTextFieldProps} />
-
-          <div className="flex items-center justify-between">
-            <p className="text-sm text-gray-500">
-              No account?{" "}
-              <Link className="underline" href="/sign-up">
-                Sign up
-              </Link>
+            <p className="mt-4 text-gray-500">
+              Securely access your account, explore and start sharing files
+              effortlessly in seconds.
             </p>
-
-            <PrimaryButton buttonType="submit" text="Sign in" />
           </div>
-        </form>
+
+          <form
+            action=""
+            className="mx-auto mb-0 mt-8 max-w-md space-y-4"
+            onSubmit={(e: FormEvent<HTMLFormElement>) =>
+              handleSubmitSignInData(e)
+            }
+          >
+            <TextField {...usernameTextFieldProps} />
+            <TextField {...passwordTextFieldProps} />
+
+            <div className="flex items-center justify-between">
+              <p className="text-sm text-gray-500">
+                No account?{" "}
+                <Link className="underline" href="/sign-up">
+                  Sign up
+                </Link>
+              </p>
+
+              <PrimaryButton buttonType="submit" text="Sign in" />
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+
+      {/* Wait for approval pop-up */}
+      {showWaitForApprovalPopUp && (
+        <WaitForApprovalPopUp onClose={closeShowWaitForApprovalPopUp} />
+      )}
+    </>
   );
 }

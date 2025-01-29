@@ -8,9 +8,9 @@ from apps.files.views.file_view import FileView
 router: DefaultRouter = DefaultRouter(trailing_slash=False)
 
 # Register urls for the router
-router.register(r"files", FileView, basename="file")
+router.register(prefix=r"files", viewset=FileView, basename="file")
 
 
 urlpatterns = [
-    path("api/", include(router.urls), name="file"),
+    path(route="api/", view=include(router.urls), name="file"),
 ]

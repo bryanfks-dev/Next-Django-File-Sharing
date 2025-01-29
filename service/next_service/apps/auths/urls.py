@@ -10,15 +10,17 @@ from apps.auths.views.guest_sign_in_view import GuestSignInView
 router = DefaultRouter(trailing_slash=False)
 
 # Register viewsets with router
-router.register(r"auth/signup", SignUpView, basename="signup")
-router.register(r"auth/signin", SignInView, basename="signin")
-router.register(r"auth/guest/signin", GuestSignInView, basename="guest_signin")
+router.register(prefix=r"auth/signup", viewset=SignUpView, basename="signup")
+router.register(prefix=r"auth/signin", viewset=SignInView, basename="signin")
+router.register(
+    prefix=r"auth/guest/signin", viewset=GuestSignInView, basename="guest_signin"
+)
 
 urlpatterns = [
-    path("api/", include(router.urls), name="auths"),
+    path(route="api/", view=include(router.urls), name="auths"),
     path(
-        "api/token/validate",
-        TokenView.as_view({"get": "validate_token"}),
+        route="api/token/validate",
+        view=TokenView.as_view({"get": "validate_token"}),
         name="validate_token",
     ),
 ]

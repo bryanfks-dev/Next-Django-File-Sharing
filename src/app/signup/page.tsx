@@ -43,7 +43,7 @@ export default function Page(): JSX.Element {
         // Check if the error has a username property
         if (error.errorMessages.hasOwnProperty("username")) {
           setUsernameTextFieldProps((prevState) => {
-            prevState.errorText = error.errorMessages["username"]![0];
+            prevState.errorText = error.errorMessages.username![0];
 
             return { ...prevState };
           });
@@ -52,7 +52,7 @@ export default function Page(): JSX.Element {
         // Check if the error has a password property
         if (error.errorMessages.hasOwnProperty("password")) {
           setPasswordTextFieldProps((prevState) => {
-            prevState.errorText = error.errorMessages["password"]![0];
+            prevState.errorText = error.errorMessages.password![0];
 
             return { ...prevState };
           });
@@ -61,7 +61,7 @@ export default function Page(): JSX.Element {
         // Check if the error has a confirm_password property
         if (error.errorMessages.hasOwnProperty("confirm_password")) {
           setConfirmPasswordTextFieldProps((prevState) => {
-            prevState.errorText = error.errorMessages["confirm_password"]![0];
+            prevState.errorText = error.errorMessages.confirm_password![0];
 
             return { ...prevState };
           });
@@ -385,7 +385,7 @@ export default function Page(): JSX.Element {
             <div className="flex items-center justify-between">
               <p className="text-sm text-gray-500">
                 Has an account?{" "}
-                <Link className="underline" href="/sign-in">
+                <Link className="underline" href="/signin">
                   Sign in
                 </Link>
               </p>

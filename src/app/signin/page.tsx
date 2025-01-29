@@ -7,6 +7,13 @@ import { SignInDataValidator } from "../validators/signInDataValidator";
 import { ValidationError } from "../../core/errors/validation.error";
 import PrimaryButton from "../components/primaryButton";
 import WaitForApprovalPopUp from "./components/waitForApprovalPopUp";
+import { SignInUsecase } from "@/core/use-cases/signIn.usecase";
+import { AuthenticationRepositoryImpl } from "@/infrastructure/repositories/authentication.repository.impl";
+import { User } from "@/domain/entities/user.entity";
+import { AuthenticationError } from "@/core/errors/authentication.error";
+import { ServerFailureError } from "@/core/errors/serverFailure.error";
+import { WaitingForApprovalError } from "@/core/errors/waitingForApproval.error";
+import { Token } from "@/domain/entities/token.entity";
 
 /**
  * Page is the sign-in page component.
@@ -14,6 +21,71 @@ import WaitForApprovalPopUp from "./components/waitForApprovalPopUp";
  * @returns {JSX.Element} The sign-in page component.
  */
 export default function Page(): JSX.Element {
+  /**
+   * handleSignIn is a function that handles the sign in event.
+   *
+   * @returns {Promise<void>}
+   */
+  const handleSignIn = async (): Promise<void> => {
+    try {
+      // Call the sign in use case
+      const { user, token }: { user: User; token: Token } =
+        await new SignInUsecase(new AuthenticationRepositoryImpl()).execute(
+          signInData.username,
+          signInData.password,
+        );
+
+      // Save the token in the local storage
+      localStorage.setItem("api_token", token.token);
+      // Save the user in the local storage
+      localStorage.setItem("user", JSON.stringify(user));
+    } catch (error) {
+      // Check if the error is a validation error
+      if (error instanceof ValidationError) {
+        // Check if the error has a username property
+        if (error.errorMessages.hasOwnProperty("username")) {
+          setUsernameTextFieldProps((prevState) => {
+            prevState.errorText = error.errorMessages.username![0];
+
+            return { ...prevState };
+          });
+        }
+
+        // Check if the error has a password property
+        if (error.errorMessages.hasOwnProperty("password")) {
+          setPasswordTextFieldProps((prevState) => {
+            prevState.errorText = error.errorMessages.password![0];
+
+            return { ...prevState };
+          });
+        }
+      }
+
+      // Check if the error is an WaitingForApprovalError
+      if (error instanceof WaitingForApprovalError) {
+        openShowWaitForApprovalPopUp();
+
+        return;
+      }
+
+      // Check if the error is an AuthenticationError
+      if (error instanceof AuthenticationError) {
+        alert(error.message);
+
+        return;
+      }
+
+      // Check if the error is a ServerFailure
+      if (error instanceof ServerFailureError) {
+        alert(error.message);
+
+        return;
+      }
+
+      alert(error);
+    }
+  };
+
   /**
    * signInData is the state that contains the sign in data.
    * It is an object that contains the username and password.
@@ -237,7 +309,8 @@ export default function Page(): JSX.Element {
       return;
     }
 
-    alert(signInData);
+    // Handle the sign in
+    handleSignIn();
   };
 
   /**
@@ -295,7 +368,7 @@ export default function Page(): JSX.Element {
             <div className="flex items-center justify-between">
               <p className="text-sm text-gray-500">
                 No account?{" "}
-                <Link className="underline" href="/sign-up">
+                <Link className="underline" href="/signup">
                   Sign up
                 </Link>
               </p>

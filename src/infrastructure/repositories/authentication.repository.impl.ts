@@ -9,6 +9,7 @@ import { ValidationError } from "@/core/errors/validation.error";
 import { ErrorDto } from "@/domain/dto/error.dto";
 import { ServerFailureError } from "@/core/errors/serverFailure.error";
 import { AuthenticationError } from "@/core/errors/authentication.error";
+import { WaitingForApprovalError } from "@/core/errors/waitingForApproval.error";
 
 /**
  * AuthenticationRepositoryImpl is the implementation of the AuthenticationRepository interface.
@@ -128,6 +129,11 @@ export class AuthenticationRepositoryImpl implements AuthenticationRepository {
 
         case axios.HttpStatusCode.Unauthorized:
           throw new AuthenticationError(
+            (axiosError.response?.data as ErrorDto).error as string,
+          );
+
+        case axios.HttpStatusCode.Forbidden:
+          throw new WaitingForApprovalError(
             (axiosError.response?.data as ErrorDto).error as string,
           );
       }

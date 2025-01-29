@@ -18,7 +18,7 @@ export class SignInUsecase {
     );
 
     // Convert the response data to a PostSignInResponseDto
-    const responseDto = response.data as PostSignInResponseDto;
+    const responseDto: PostSignInResponseDto = response.data;
 
     return {
       user: this.convertUserDtoToEntity(responseDto.user!),

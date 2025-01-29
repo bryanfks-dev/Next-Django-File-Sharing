@@ -1,3 +1,4 @@
+import { PostSignUpResponseDto } from "@/domain/dto/postSignUpResponse.dto";
 import { UserDto } from "@/domain/dto/user.dto";
 import { User } from "@/domain/entities/user.entity";
 import { AuthenticationRepository } from "@/infrastructure/repositories/authentication.repository.interface";
@@ -31,7 +32,10 @@ export class SignUpUsecase {
       confirmPassword,
     );
 
-    return this.convertUserDtoToEntity(response.data as UserDto);
+    // Convert the response data to a PostSignUpResponseDto
+    const responseDto: PostSignUpResponseDto = response.data;
+
+    return this.convertUserDtoToEntity(responseDto as UserDto);
   }
 
   /**

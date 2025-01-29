@@ -2,7 +2,7 @@
  * AuthenticationError is a custom error class that extends the Error class.
  * It is used to represent an error that occurs when a user is not authenticated.
  *
- * @param {string} message  The error message.
+ * @property {string} message  The error message.
  */
 export class AuthenticationError extends Error {
   constructor(message: string) {

@@ -42,8 +42,8 @@ export default function WaitForApprovalPopUp(props: PopUpProps): JSX.Element {
             </button>
           </div>
           <div className="p-4 md:p-5">
-            Your account is successfully registered and sent into the server.
-            Please wait for the approval from admin.
+            Your account is already registered in the server, but it is not yet
+            approved. Please wait for the approval from admin.
           </div>
 
           <div className="flex items-center justify-end rounded-b border-t border-gray-200 p-4 md:p-5">

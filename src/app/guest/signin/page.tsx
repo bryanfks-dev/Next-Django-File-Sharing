@@ -195,7 +195,7 @@ export default function Page(): JSX.Element {
           <div className="flex items-center justify-between">
             <p className="text-sm text-gray-500">
               No account?{" "}
-              <Link className="underline" href="/sign-up">
+              <Link className="underline" href="/signup">
                 Sign up
               </Link>
             </p>

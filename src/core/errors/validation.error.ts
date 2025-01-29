@@ -3,8 +3,8 @@
  * This class is used to represent an error that occurs when the data
  * entered by the user is invalid.
  *
- * @param {string} message The error message that is displayed to the user.
- * @param {Record<string, string[]>} errors The error messages that are displayed to the user.
+ * @property {string} message The error message that is displayed to the user.
+ * @property {Record<string, string[]>} errors The error messages that are displayed to the user.
  */
 export class ValidationError extends Error {
   /**

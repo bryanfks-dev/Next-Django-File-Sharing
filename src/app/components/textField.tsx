@@ -20,14 +20,14 @@ export default function TextField(props: TextFieldProps): JSX.Element {
           type={props.inputType}
           className={clsx(
             "w-full rounded-lg border p-4 pe-12 text-sm shadow-sm lg:focus:outline-none",
-            props.errorText != undefined
+            props.errorText
               ? "border-red-500 outline-red-500 focus:border-red-500"
               : "border-gray-200 outline-emerald-500 focus:border-emerald-500",
           )}
           placeholder={props.inputPlaceholder}
           onChange={(event: React.ChangeEvent<HTMLInputElement>): void => {
             // Check if the onChange prop is not defined
-            if (props.onChange == undefined) {
+            if (!props.onChange) {
               return;
             }
 

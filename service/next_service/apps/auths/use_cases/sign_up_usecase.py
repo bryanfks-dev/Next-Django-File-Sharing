@@ -11,6 +11,7 @@ from core.exceptions.invalid_field_value_exception import (
 )
 from core.exceptions.server_failure_exception import ServerFailureException
 from apps.users.models.user_model import User
+from apps.auths.models.waiting_approval_model import WaitingApproval
 
 
 class SignUpUsecase:
@@ -57,6 +58,9 @@ class SignUpUsecase:
         try:
             # Create the user
             user: User = request_serializer.save()
+
+            # Create the waitting approval record for the user
+            WaitingApproval.objects.create(user=user)
 
             return user
         except IntegrityError as e:

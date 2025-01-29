@@ -13,6 +13,7 @@ from core.exceptions.invalid_field_value_exception import (
 from core.exceptions.invalid_credential_exception import InvalidCredentialException
 from core.exceptions.server_failure_exception import ServerFailureException
 from apps.users.models.user_model import User
+from core.exceptions.forbidden_exception import ForbiddenException
 
 
 class SignInUsecase:
@@ -57,6 +58,12 @@ class SignInUsecase:
             if user.token is not None and user.token_expires_time > timezone.now():
                 raise InvalidCredentialException(
                     detail="This account is used in another device, please logout from that device first."
+                )
+
+            # Check if user is still waiting for approval
+            if user.waiting_approval:
+                raise ForbiddenException(
+                    detail="This account is still waiting for approval."
                 )
 
             # Generate the token

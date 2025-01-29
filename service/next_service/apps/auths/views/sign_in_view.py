@@ -15,6 +15,7 @@ from apps.auths.serializers.post_sign_in_response_serializer import (
 from core.exceptions.invalid_credential_exception import InvalidCredentialException
 from core.exceptions.server_failure_exception import ServerFailureException
 from core.exceptions.invalid_field_value_exception import InvalidFieldValueException
+from core.exceptions.forbidden_exception import ForbiddenException
 
 
 class SignInView(ViewSet):
@@ -57,6 +58,7 @@ class SignInView(ViewSet):
             InvalidFieldValueException,
             InvalidCredentialException,
             ServerFailureException,
+            ForbiddenException,
         ) as e:
             return Response(data={"error": e.detail}, status=e.status_code)
         except Exception as e:

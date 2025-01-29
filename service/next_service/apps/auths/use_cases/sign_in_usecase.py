@@ -61,7 +61,7 @@ class SignInUsecase:
                 )
 
             # Check if user is still waiting for approval
-            if user.waiting_approval:
+            if getattr(user, "waiting_approval", None):
                 raise ForbiddenException(
                     detail="This account is still waiting for approval."
                 )

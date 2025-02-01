@@ -41,6 +41,8 @@ class FileView(ViewSet):
         - Response: The response object
         """
 
+        print(request.data)
+
         # Get the user from the request object
         user: User = request.user
 

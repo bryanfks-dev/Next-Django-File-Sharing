@@ -2,6 +2,12 @@ import { PostSignInResponseDto } from "@/domain/dto/postSignInResponse.dto";
 import { PostSignUpResponseDto } from "@/domain/dto/postSignUpResponse.dto";
 import { AxiosResponse } from "axios";
 
+/**
+ * AuthenticationRepository is an interface that represents the methods of the authentication repository.
+ *
+ * @function signUp - Signs up a user
+ * @function signIn - Signs in a user
+ */
 export interface AuthenticationRepository {
   /**
    * signUp is a method that signs up a user.

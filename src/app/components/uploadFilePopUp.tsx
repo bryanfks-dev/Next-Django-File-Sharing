@@ -1,7 +1,7 @@
 "use client";
 
 import { UploadChannel } from "@/infrastructure/enums/uploadChannel";
-import { useState } from "react";
+import { ChangeEvent, useCallback, useRef, useState } from "react";
 import PrimaryButton from "./primaryButton";
 import clsx from "clsx";
 
@@ -50,7 +50,7 @@ export default function UploadFilePopUp(props: PopUpProps): JSX.Element {
    *
    * @returns {void}
    */
-  const updateFileData = (file: File): void => {
+  const updateFileData = (file: File | null): void => {
     setUploadFileData((prevState) => ({
       ...prevState,
       file: file,
@@ -120,6 +120,54 @@ export default function UploadFilePopUp(props: PopUpProps): JSX.Element {
    */
   const showUploadSuccessNotification = (): void => {};
 
+  /**
+   * handlePickFile is a function that handles the pick file event.
+   *
+   * @param {ChangeEvent<HTMLInputElement>} event the event of pick file
+   *
+   * @returns {void}
+   */
+  const handlePickFile = (event: ChangeEvent<HTMLInputElement>): void => {
+    // Check if user has picked a file
+    if (!event.target.files) {
+      return;
+    }
+
+    // Get the file from event
+    const file: File = event.target.files![0];
+
+    updateFileData(file);
+  };
+
+  /**
+   * fileSizeText is a function that returns the proprosional file size as text format.
+   *
+   * @param {number} size the size of the file
+   *
+   * @returns {string} the text format of file size.
+   */
+  const fileSizeText = (size: number): string => {
+    // Convert size to string format
+    const sizeString: string = size.toString();
+
+    // Check if size digits less than 6
+    if (sizeString.length < 6) {
+      return `${(size / 1024).toFixed(2)} KB`;
+    }
+
+    return `${(size / (1024 * 1024)).toFixed(2)} MB`;
+  };
+
+  /**
+   * handleRemoveFile is a function that removes the file from the upload data.
+   *
+   * @returns {void}
+   */
+  const handleRemoveFile = (): void => {
+    // Remove file from upload data
+    updateFileData(null);
+  };
+
   return (
     <>
       <div className="fixed left-0 right-0 top-0 z-50 flex h-screen w-full items-center justify-center overflow-y-auto overflow-x-hidden bg-gray-600 bg-opacity-50 md:inset-0">
@@ -163,7 +211,7 @@ export default function UploadFilePopUp(props: PopUpProps): JSX.Element {
                     Where do you want to upload this files?
                   </legend>
 
-                  <div>
+                  <div className="text-justify">
                     <label
                       htmlFor="ChannelPublic"
                       className={clsx(
@@ -174,8 +222,8 @@ export default function UploadFilePopUp(props: PopUpProps): JSX.Element {
                       )}
                     >
                       <p className="text-gray-700">
-                        Share this file(s) to public, so people in area can view
-                        this file(s).
+                        Share this file(s) to public, so people in network can
+                        view this file(s).
                       </p>
 
                       <input
@@ -197,7 +245,7 @@ export default function UploadFilePopUp(props: PopUpProps): JSX.Element {
                     <label
                       htmlFor="ChannelGroup"
                       className={clsx(
-                        "flex cursor-pointer items-center justify-between rounded-lg border border-gray-100 p-4 text-sm font-medium shadow-sm has-[:checked]:border-emerald-500 has-[:checked]:ring-1 has-[:checked]:ring-emerald-500",
+                        "flex cursor-pointer items-center justify-between gap-2 rounded-lg border border-gray-100 p-4 text-sm font-medium shadow-sm has-[:checked]:border-emerald-500 has-[:checked]:ring-1 has-[:checked]:ring-emerald-500",
                         isReadOnlyForm
                           ? "cursor-default bg-gray-200"
                           : "bg-white hover:border-gray-200",
@@ -249,39 +297,103 @@ export default function UploadFilePopUp(props: PopUpProps): JSX.Element {
                   <label
                     htmlFor="dropzone-file"
                     className={clsx(
-                      "flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2",
+                      "flex h-64 w-full flex-col items-center justify-center rounded-lg border-2",
                       isReadOnlyForm
                         ? "cursor-default bg-gray-200"
-                        : "border-dashed border-gray-300 bg-white hover:bg-gray-100",
+                        : "border-dashed border-gray-300 bg-white",
+                      !isReadOnlyForm &&
+                        !uploadFileData.file &&
+                        "cursor-pointer hover:bg-gray-100",
                     )}
                   >
-                    <div className="flex flex-col items-center justify-center pb-6 pt-5">
-                      <svg
-                        className="mb-4 h-8 w-8 text-gray-500"
-                        aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 20 16"
-                      >
-                        <path
-                          stroke="currentColor"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                    {uploadFileData.file ? (
+                      <div className="w-11/12 overflow-hidden rounded-md bg-gray-100">
+                        <div className="flex items-center justify-between gap-3 p-4 text-sm text-gray-800">
+                          <div className="flex items-center gap-3">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              height="24px"
+                              viewBox="0 -960 960 960"
+                              width="24px"
+                              fill="currentColor"
+                              className="size-6 text-gray-800"
+                            >
+                              <path d="M240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z" />
+                            </svg>
+                            <div className="flex flex-col">
+                              <div className="flex items-center font-medium">
+                                <span className="truncate">
+                                  {uploadFileData.file?.name.substring(
+                                    0,
+                                    uploadFileData.file?.name.lastIndexOf("."),
+                                  )}
+                                </span>
+                                <span>
+                                  .{uploadFileData.file?.name.split(".").at(-1)}
+                                </span>
+                              </div>
+                              <p className="text-xs">
+                                {fileSizeText(uploadFileData.file?.size ?? 0)}
+                              </p>
+                            </div>
+                          </div>
+                          <button
+                            type="button"
+                            className="ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-black"
+                            onClick={() => handleRemoveFile()}
+                          >
+                            <svg
+                              className="h-3 w-3"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 14 14"
+                            >
+                              <path
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                              />
+                            </svg>
+                            <span className="sr-only">Close pop up</span>
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <>
+                        <div className="flex flex-col items-center justify-center pb-6 pt-5">
+                          <svg
+                            className="mb-4 h-8 w-8 text-gray-500"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 20 16"
+                          >
+                            <path
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                            />
+                          </svg>
+                          <p className="mb-2 text-sm font-semibold text-gray-500">
+                            Click to upload
+                          </p>
+                          <p className="text-xs text-gray-500">Any File(s)</p>
+                        </div>
+                        <input
+                          id="dropzone-file"
+                          type="file"
+                          className="hidden"
+                          disabled={isReadOnlyForm}
+                          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                            handlePickFile(e)
+                          }
                         />
-                      </svg>
-                      <p className="mb-2 text-sm font-semibold text-gray-500">
-                        Click to upload
-                      </p>
-                      <p className="text-xs text-gray-500">Any File(s)</p>
-                    </div>
-                    <input
-                      id="dropzone-file"
-                      type="file"
-                      className="hidden"
-                      disabled={isReadOnlyForm}
-                    />
+                      </>
+                    )}
                   </label>
                 </div>
               </form>
@@ -290,9 +402,9 @@ export default function UploadFilePopUp(props: PopUpProps): JSX.Element {
             <div className="flex items-center justify-end rounded-b border-t border-gray-200 p-4 md:p-5">
               <PrimaryButton buttonType="submit" text="Upload" />
               <button
-                data-modal-hide="static-modal"
                 type="button"
                 className="ms-3 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100"
+                onClick={() => props.onClose()}
               >
                 Cancel
               </button>
